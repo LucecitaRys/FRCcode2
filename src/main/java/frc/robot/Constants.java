@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.config.PIDConstants;
 
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.trajectory.TrajectoryConfig;
 
 /** Add your docs here. */
 public class Constants {
@@ -19,18 +20,6 @@ public class Constants {
     }
 
 
-
-    
-
-  // public static TrajectoryConfig createTrajConfig (double maxVel, double maxAccel) {
-     //   TrajectoryConfig config = new TrajectoryConfig(maxVel, maxAccel);
-    //    config.setStartVelocity(0); 
-    //    config.setEndVelocity(0); 
-    //    return new TrajectoryConfig(maxVel, maxAccel);
-  //  }
- 
-  
-  
     public static final class MotorConstants {
         public static final int id_ms= 31; 
          public static final int id_mi= 17; 
@@ -50,4 +39,10 @@ public class Constants {
     public static final PIDConstants translationConstants = new PIDConstants(5.0, 0.0, 0.0);
     public static final PIDConstants rotationConstants = new PIDConstants(5.0, 0.0, 0.0);
       }
+       public static TrajectoryConfig createTrajConfig (double maxVel, double maxAccel) {
+        TrajectoryConfig config = new TrajectoryConfig(maxVel, maxAccel);
+        config.setStartVelocity(0); 
+        config.setEndVelocity(0); 
+        return new TrajectoryConfig(maxVel, maxAccel);
+    }
 }

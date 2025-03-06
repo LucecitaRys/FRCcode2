@@ -12,14 +12,14 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Path;
 
-public class WaypointReader {
-    private static final double PATHWEAVER_Y_OFFSET = 8.01367968; 
+public class WaypointReader { */
+  //  private static final double PATHWEAVER_Y_OFFSET = 8.01367968; 
     /**
      * Get control vector list from path file
      * @param pathName Specify the {THIS} in src/main/deploy/waypoints/{THIS}.path
      * @return control vectors from file
-     *//* 
-    public static TrajectoryGenerator.ControlVectorList getControlVectors(Path path) throws IOException {
+     */ 
+ /*   public static TrajectoryGenerator.ControlVectorList getControlVectors(Path path) throws IOException {
 
         TrajectoryGenerator.ControlVectorList controlVectors = new TrajectoryGenerator.ControlVectorList();
 
@@ -37,10 +37,7 @@ public class WaypointReader {
                 double x_tan = Double.parseDouble(split[2]);
                 double y = Double.parseDouble(split[1]) + PATHWEAVER_Y_OFFSET; 
                 double y_tan = Double.parseDouble(split[3]);
-                if (Telemetry.isRedAlliance()) {
-                    x = Constants.Field.length - x;
-                    x_tan = - x_tan;
-                }
+                
                 controlVectors.add(
                     new Spline.ControlVector(
                         new double[]{x, x_tan, 0},

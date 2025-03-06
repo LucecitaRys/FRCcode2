@@ -11,23 +11,23 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ControlBoard;
 
-import frc.robot.subsystems.Brazo;
+
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.ElevatorSub.ElePoses;
 import frc.robot.subsystems.Shooter.intake_states;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Brazo.brazoposes;
+
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ModeAlgae extends Command {
   private final ElevatorSub mElevador = ElevatorSub.getInstance(); 
   private final Shooter mShooter = Shooter.getInstance();
-  private final Brazo mBrazo = Brazo.getInstance();
+  
 
   private boolean mFlag;
  
   public ModeAlgae() {
-addRequirements(mBrazo);
+
 addRequirements(mElevador);
 addRequirements(mShooter);
   } 
@@ -42,25 +42,25 @@ addRequirements(mShooter);
     
     if(ControlBoard.ButtonALGAE()){
       if (ControlBoard.buttonA()) {
-        mBrazo.brStates = brazoposes.collectAlgae;
+
         mElevador.ElPos = ElePoses.collect;
         mShooter.inStates = intake_states.collectAlgae;
           Shuffleboard.addEventMarker("AlgaeCollect", EventImportance.kHigh);
       }
       if (ControlBoard.buttonB()) {
-        mBrazo.brStates = brazoposes.nivel1;
+       
         mElevador.ElPos = ElePoses.nivel1;
         mShooter.inStates = intake_states.collectAlgae;
         Shuffleboard.addEventMarker("Algae1", EventImportance.kHigh);
       }
       if (ControlBoard.buttonx()) {
-        mBrazo.brStates = brazoposes.nivel1;
+        
         mElevador.ElPos = ElePoses.nivel2;
         mShooter.inStates = intake_states.collectAlgae;
         Shuffleboard.addEventMarker("Algae2", EventImportance.kHigh);
       }
       if (ControlBoard.buttony()) {
-        mBrazo.brStates = brazoposes.nivel3;
+     
         mElevador.ElPos = ElePoses.nivel3;
         mShooter.inStates = intake_states.throwAlagae;
         Shuffleboard.addEventMarker("Algae333333", EventImportance.kHigh);
@@ -71,7 +71,7 @@ addRequirements(mShooter);
 
     if(mShooter.inStates == mShooter.inStates.collectAlgae)
     {   
-      if(mBrazo.posb== mBrazo.getPoseB()&& mShooter.posm == mShooter.getposm() && mElevador.posel== mElevador.getPosEle()){
+      if( mShooter.posm == mShooter.getposm() && mElevador.posel== mElevador.getPosEle()){
 
         mShooter.setConstantVel(0.5);
       
@@ -85,7 +85,7 @@ addRequirements(mShooter);
 
       if(mShooter.inStates == mShooter.inStates.throwAlagae)
     {   
-      if(mBrazo.posb== mBrazo.getPoseB()&& mShooter.posm == mShooter.getposm() && mElevador.posel== mElevador.getPosEle()){
+      if(mShooter.posm == mShooter.getposm() && mElevador.posel== mElevador.getPosEle()){
 
         mShooter.setConstantVel(-0.5);
         

@@ -18,10 +18,10 @@ import frc.robot.commands.FollowPath;
 import frc.robot.subsystems.ElevatorSub.ElePoses;
 import frc.robot.subsystems.Shooter.intake_states;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Brazo.brazoposes;*/
+import frc.robot.subsystems.Brazo.brazoposes;
 
-/** Add your docs here. */
-/*public class SUPERIOR implements IAuto {
+
+public class SUPERIOR implements IAuto {
       private final Trajectory mpath1, mpath2, mpath3, mpath4; 
     private final Pose2d mStartingPose; 
     private final Command mAutoCommand; 

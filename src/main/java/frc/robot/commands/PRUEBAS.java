@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ControlBoard;
-import frc.robot.subsystems.Brazo;
+
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.Shooter;
 
@@ -16,10 +16,10 @@ public class PRUEBAS extends Command {
   /** Creates a new PRUEBAS. */
   private final ElevatorSub mElevador = ElevatorSub.getInstance(); 
   private final Shooter mShooter = Shooter.getInstance();
-  private final Brazo mBrazo = Brazo.getInstance();
+
   public PRUEBAS() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(mBrazo);
+  
 addRequirements(mElevador);
 addRequirements(mShooter);
   }
@@ -34,11 +34,18 @@ addRequirements(mShooter);
   @Override
   public void execute() {
     
-     mBrazo.getposbrazo(ControlBoard.getLeftXop()); //joystic izquierdo brazo 
+//joystic izquierdo brazo 
      mElevador.GETPOSESELEVATORPower(ControlBoard.getRightY_ope());// joystic derecho elevador
   mShooter.GETPOSESMU(ControlBoard.ButtonMuL()); //positivo muñeca trigger left
   mShooter.GETPOSESMU(ControlBoard.ButtonMuL());
   // Coral operador
+  if (ControlBoard.ButtonMuL()>0){
+mShooter.setConstantVel(0.15);
+if(mShooter.Current()>= 22){
+  mShooter.setConstantVel(0);
+}
+  }
+
   if(ControlBoard.buttonA()){
     mShooter.setConstantVel(0.15);
    
@@ -47,24 +54,19 @@ addRequirements(mShooter);
 mShooter.setConstantVel(-0.07);
   }
   
-  else if(ControlBoard.buttonx()){
-    mShooter.setConstantVel(1);
-    if (mShooter.Current()>=32){
-      mShooter.setConstantVel(0);
-    }
-  } 
-  else if(ControlBoard.buttony()){
-mShooter.setConstantVel(-1);
-  }
+  
   else{
     mShooter.setConstantVel(0); 
   }
-  if (ControlBoard.ButtonPosEle1()) {
-    mElevador.setPosElevator(10);
+  if (ControlBoard.buttonx()) {
+    mElevador.setPosElevator(11.45);
+  }
+  if (ControlBoard.buttony()) {
+    mElevador.setPosElevator(7);
   }
   // negativo muñeca trigger right
   SmartDashboard.putNumber("POSE ELEVATOR", mElevador.getPosEle());
-  SmartDashboard.putNumber("POSE BRAZO", mBrazo.getPoseB());
+
   SmartDashboard.putNumber("POSE MUÑECA", mShooter.getposm());
   if(ControlBoard.ButtonReset()){
     mElevador.Encoderele.reset();

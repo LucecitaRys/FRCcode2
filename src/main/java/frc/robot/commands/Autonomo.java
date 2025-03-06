@@ -4,7 +4,10 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix6.swerve.SwerveRequest;
+
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -14,7 +17,8 @@ import frc.robot.subsystems.Shooter;
 public class Autonomo extends Command {
   /** Creates a new Autonomo.*/ 
   private Shooter mShooter = Shooter.getInstance();
-  
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+      private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric();
   public boolean x;
   private double time;
   public Autonomo() {
@@ -34,13 +38,23 @@ public class Autonomo extends Command {
   public void execute() {
     time= Timer.getFPGATimestamp();
     
-  if(time> 3.5 ){
-   
+  if(time< 3.5 ){
+    drivetrain.applyRequest(() ->
+            drive.withVelocityX(0) // Drive forward with negative Y (forward)
+               .withVelocityY(5) // Drive left with negative X (left) -
+               .withRotationalRate(0.0)
+               );
     
-    mShooter.setConstantVel(0.15);}
-   else if(time< 4){
-      mShooter.setConstantVel(0);
+    mShooter.setConstantVel(0.0);
+    SmartDashboard.putBoolean("Estado 1", true);
+    SmartDashboard.putNumber("Time", time);
+  }
+   
+   else if(time>=3.5 && time < 4){
+    SmartDashboard.putBoolean("Estado 2", true);
+      mShooter.setConstantVel(0.15);
       x= true;
+      SmartDashboard.putNumber("Time", time);
     }
     
   }

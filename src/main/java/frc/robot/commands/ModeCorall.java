@@ -12,23 +12,22 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ControlBoard;
 
-import frc.robot.subsystems.Brazo;
+
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.ElevatorSub.ElePoses;
 import frc.robot.subsystems.Shooter.intake_states;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Brazo.brazoposes;
+
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ModeCorall extends Command {
   private final ElevatorSub mElevador = ElevatorSub.getInstance(); 
   private final Shooter mShooter = Shooter.getInstance();
-  private final Brazo mBrazo = Brazo.getInstance();
-  
+
   private boolean mFlag;
  
   public ModeCorall() {
-addRequirements(mBrazo);
+
 addRequirements(mElevador);
 addRequirements(mShooter);
   } 
@@ -43,32 +42,32 @@ addRequirements(mShooter);
     
     if(ControlBoard.ButtonCORAL()){
       if (ControlBoard.buttonA()) {
-        mBrazo.brStates = brazoposes.collectCoral;
+       
         mElevador.ElPos = ElePoses.collect;
         mShooter.inStates = intake_states.collectCoral;
         
         Shuffleboard.addEventMarker("CoralCollect", EventImportance.kHigh);
       }
       if (ControlBoard.buttonB()) {
-        mBrazo.brStates = brazoposes.nivel1;
+      
         mElevador.ElPos = ElePoses.nivel1;
         mShooter.inStates = intake_states.throwCoral;
         Shuffleboard.addEventMarker("Coral1", EventImportance.kHigh);
       }
       if (ControlBoard.buttonx()) {
-        mBrazo.brStates = brazoposes.nivel2;
+        
         mElevador.ElPos = ElePoses.nivel2;
         mShooter.inStates = intake_states.throwCoral;
         Shuffleboard.addEventMarker("Coral2", EventImportance.kHigh);
       }
       if (ControlBoard.buttony()) {
-        mBrazo.brStates = brazoposes.nivel3;
+        
         mElevador.ElPos = ElePoses.nivel3;
         mShooter.inStates = intake_states.throwCoral;
         Shuffleboard.addEventMarker("Coral3", EventImportance.kHigh);
       }
       if (ControlBoard.button5()) {
-        mBrazo.brStates = brazoposes.nivel4;
+       
         mElevador.ElPos = ElePoses.nivel4;
         mShooter.inStates = intake_states.throwCoral;
         Shuffleboard.addEventMarker("Coral4", EventImportance.kHigh);
@@ -76,7 +75,7 @@ addRequirements(mShooter);
     }
     if(mShooter.inStates == mShooter.inStates.collectCoral)
     {   
-      if(mBrazo.posb== mBrazo.getPoseB()&& mShooter.posm == mShooter.getposm() && mElevador.posel== mElevador.getPosEle()){
+      if(mShooter.posm == mShooter.getposm() && mElevador.posel== mElevador.getPosEle()){
 
         mShooter.setConstantVel(0.5);
       
@@ -90,7 +89,7 @@ addRequirements(mShooter);
 
       if(mShooter.inStates == mShooter.inStates.throwCoral)
     {   
-      if(mBrazo.posb== mBrazo.getPoseB()&& mShooter.posm == mShooter.getposm() && mElevador.posel== mElevador.getPosEle()){
+      if(mShooter.posm == mShooter.getposm() && mElevador.posel== mElevador.getPosEle()){
 
         mShooter.setConstantVel(-0.5);
        
