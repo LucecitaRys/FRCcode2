@@ -8,6 +8,9 @@ import java.util.Optional;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.EventTrigger;
+import com.pathplanner.lib.path.EventMarker;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,7 +25,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.auto.IAuto;
-
+import frc.robot.auto.modes.INFERIOR;
 import frc.robot.commands.Autonomo;
 import frc.robot.commands.ClimberComm;
 import frc.robot.commands.PRUEBAS;
@@ -39,13 +42,13 @@ public class RobotContainer {
    //private SendableChooser<AutoBuilder> mAutoChooser = new SendableChooser<>(); 
 
     private Shooter mShooter = Shooter.getInstance();
+    
 
 
 private final PRUEBAS pruebas= new PRUEBAS();
 private final ClimberComm  climberComm = new ClimberComm();
 private final climber mClimber = climber.getInstance();
 private ElevatorSub mElevatorSub = ElevatorSub.getInstance();
-
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
@@ -54,7 +57,7 @@ private ElevatorSub mElevatorSub = ElevatorSub.getInstance();
     private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
     .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    
+
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     private final CommandXboxController joystick = new CommandXboxController(0);
@@ -62,14 +65,15 @@ private ElevatorSub mElevatorSub = ElevatorSub.getInstance();
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
    private final SendableChooser<Command> autoChooser;
- 
+   private final INFERIOR inferior = new INFERIOR();
+
 
 
     public RobotContainer() {
-      autoChooser = AutoBuilder.buildAutoChooser("Centro");
 
+        autoChooser = AutoBuilder.buildAutoChooser();
 
-      SmartDashboard.putData("Autonuno", autoChooser);
+      SmartDashboard.putData("Autonomo", autoChooser);
 
         configureBindings();
         mShooter.setDefaultCommand(pruebas);
@@ -110,9 +114,8 @@ private ElevatorSub mElevatorSub = ElevatorSub.getInstance();
     }
 
     public Command getAutonomousCommand() {
-
-return autoChooser.getSelected();
-
+//return autoChooser.getSelected();
+return inferior.getAutoCommand();
 //AutoBuilder.followPath("LOL xd");
 /*drivetrain.applyRequest(() ->
 drive.withVelocityX(0) // Drive forward with negative Y (forward)

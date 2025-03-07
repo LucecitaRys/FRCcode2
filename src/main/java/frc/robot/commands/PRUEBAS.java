@@ -16,6 +16,7 @@ public class PRUEBAS extends Command {
   /** Creates a new PRUEBAS. */
   private final ElevatorSub mElevador = ElevatorSub.getInstance(); 
   private final Shooter mShooter = Shooter.getInstance();
+  double refpos=0;
 
   public PRUEBAS() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -28,6 +29,7 @@ addRequirements(mShooter);
   @Override
   public void initialize() {
     mShooter.setConstantVel(0);
+    mElevador.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -47,36 +49,36 @@ if(mShooter.Current()>= 22){
   }
 
   if(ControlBoard.buttonA()){
-    mShooter.setConstantVel(0.15);
-   
-  } 
-  else if(ControlBoard.buttonB()){
-mShooter.setConstantVel(-0.07);
+    mElevador.reset();
   }
+   
+  
   
   
   else{
     mShooter.setConstantVel(0); 
   }
   if (ControlBoard.buttonx()) {
-    mElevador.setPosElevator(11.45);
+    refpos = 0.5;
   }
   if (ControlBoard.buttony()) {
-    mElevador.setPosElevator(7);
+    refpos = 0.0;
   }
+  mElevador.setPosElevator(refpos);
+
   // negativo muñeca trigger right
   SmartDashboard.putNumber("POSE ELEVATOR", mElevador.getPosEle());
 
   SmartDashboard.putNumber("POSE MUÑECA", mShooter.getposm());
-  if(ControlBoard.ButtonReset()){
-    mElevador.Encoderele.reset();
+  if(ControlBoard.buttonA()){
   }  
 }
  
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

@@ -4,59 +4,74 @@
 
 package frc.robot.commands;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
+import java.nio.file.Path;
 
+import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
+import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.trajectory.PathPlannerTrajectory;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.math.trajectory.TrajectoryUtil;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.generated.TunerConstants;
+import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Shooter;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Autonomo extends Command {
   /** Creates a new Autonomo.*/ 
+
   private Shooter mShooter = Shooter.getInstance();
+  private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric();
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-      private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric();
-  public boolean x;
-  private double time;
+  PathPlannerPath path1, path2, path3;
+  private final Pose2d mStarPose = new Pose2d(9.5745 ,0.0, Rotation2d.fromDegrees(0));
+  public boolean mFlag;
+  public Trajectory trajectory = new Trajectory();
+
   public Autonomo() {
-   
   addRequirements(mShooter);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    time = Double.NaN;
+       try {
+     path1 = PathPlannerPath.fromPathFile("Centr");
+        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+     path2 = PathPlannerPath.fromPathFile("Izquierdo");
+   path3 = PathPlannerPath.fromPathFile("Derecha");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    time= Timer.getFPGATimestamp();
+   new SequentialCommandGroup(
+    AutoBuilder.followPath(path2),
+                    AutoBuilder.followPath(path1),
+                    AutoBuilder.followPath(path2)
+
+  );
+  new SequentialCommandGroup(
     
-  if(time< 3.5 ){
-    drivetrain.applyRequest(() ->
-            drive.withVelocityX(0) // Drive forward with negative Y (forward)
-               .withVelocityY(5) // Drive left with negative X (left) -
-               .withRotationalRate(0.0)
-               );
-    
-    mShooter.setConstantVel(0.0);
-    SmartDashboard.putBoolean("Estado 1", true);
-    SmartDashboard.putNumber("Time", time);
-  }
-   
-   else if(time>=3.5 && time < 4){
-    SmartDashboard.putBoolean("Estado 2", true);
-      mShooter.setConstantVel(0.15);
-      x= true;
-      SmartDashboard.putNumber("Time", time);
-    }
-    
+
+  );
+  mFlag=true;
+
   }
   
 
@@ -67,6 +82,6 @@ public class Autonomo extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return x;
+   return false;
   }
 }

@@ -63,6 +63,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
+    
     /* SysId routine for characterizing translation. This is used to find PID gains for the drive motors. */
     private final SysIdRoutine m_sysIdRoutineTranslation = new SysIdRoutine(
         new SysIdRoutine.Config(
@@ -334,27 +335,11 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     ) {
         super.addVisionMeasurement(visionRobotPoseMeters, Utils.fpgaToCurrentTime(timestampSeconds), visionMeasurementStdDevs);
     }
-public void setTrajectory(Trajectory trajectory, Rotation2d targetRotation) {
-        this.currentTrajectory = trajectory;
+    public void setTrajectory(Trajectory trajectory, Rotation2d targetRotation) {
+        currentTrajectory = trajectory;
         this.targetRotation = targetRotation;
-        this.isTrajectoryFinished = false;
-        this.startTime = Timer.getFPGATimestamp();
-
-        // Reinicia la odometría a la posición inicial de la trayectoria
-        Pose2d initialPose = trajectory.getInitialPose();
-        resetOdometry(initialPose);
-
-        // Configura los controladores de movimiento para seguir la trayectoria
-        // Por ejemplo, podrías usar un controlador PID para cada eje y la rotación
+        isTrajectoryFinished = false;
+        startTime = Timer.getFPGATimestamp();
     }
 
-    public void resetOdometry(Pose2d pose) {
-        // Lógica para reiniciar la odometría
-    }
-
-    public boolean isTrajectoryFinished() {
-        // Lógica para determinar si la trayectoria ha terminado
-        double currentTime = Timer.getFPGATimestamp() - startTime;
-        return currentTime >= currentTrajectory.getTotalTimeSeconds();
-    }
 }
