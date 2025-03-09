@@ -8,9 +8,11 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.HardwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.PositionDutyCycle;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -18,6 +20,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -31,20 +34,12 @@ import frc.robot.Constants;
 public class ElevatorSub extends SubsystemBase {
     private static ElevatorSub mElevatorSub;
     private final TalonFX ElevatorR;
-    
-      
-     private final MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
-     private final PositionVoltage posvol = new PositionVoltage (0);
-private ArmFeedforward feedforward = new ArmFeedforward(5, 0,0);
-private ElevatorFeedforward ffElevator = new ElevatorFeedforward(0.0, 0.0, 0.0);
+private final TalonFX ElevatorL;
+    private final PositionVoltage posvol = new PositionVoltage (0);
 double volts;
-
-
-  // private Encoder encoder;
-
-    public double posel;
-   // private final TalonFX ElevatorL;
-  public TalonFXConfiguration motorConf = new TalonFXConfiguration();
+public double posel;
+public TalonFXConfiguration motorConf = new TalonFXConfiguration();
+public TalonFXConfiguration motorConfL = new TalonFXConfiguration();
 
   public enum ElePoses {
     none,
@@ -60,12 +55,11 @@ double volts;
 
   public ElevatorSub() {
 
-   // encoder = new Encoder(null, null);
-ElevatorR= new TalonFX(Constants.MotorConstants.id_er);
 
-//motorConf.SoftwareLimitSwitch.ForwardSoftLimitEnable = true;
-//motorConf.SoftwareLimitSwitch.ForwardSoftLimitThreshold = 18;
-// Configuración de Slot (PID)
+ElevatorR= new TalonFX(Constants.MotorConstants.id_er);
+ElevatorL = new TalonFX(Constants.MotorConstants.id_el);
+
+
 
   Slot0Configs slot0Configs = motorConf.Slot0; 
 slot0Configs.kP = 8;
@@ -77,7 +71,7 @@ slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
 slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
 
 // Configuración de Límites de Corriente
-CurrentLimitsConfigs currentLimitsConfigs = new CurrentLimitsConfigs();
+CurrentLimitsConfigs currentLimitsConfigs =motorConf.CurrentLimits;
 currentLimitsConfigs.SupplyCurrentLowerLimit = 70;
 currentLimitsConfigs.SupplyCurrentLowerTime = 1;
 currentLimitsConfigs.SupplyCurrentLimit = 120;
@@ -86,49 +80,51 @@ currentLimitsConfigs.StatorCurrentLimitEnable = true;
 currentLimitsConfigs.StatorCurrentLimit = 120;
 
 
+/*Slot0Configs slot0ConfigsL = motorConfL.Slot0; 
+slot0ConfigsL.kP = 8;
+slot0ConfigsL.kI = 0;
+slot0ConfigsL.kD = 0;
+slot0ConfigsL.kS = 5;
+slot0ConfigsL.kG = 0;
+slot0ConfigsL.GravityType = GravityTypeValue.Arm_Cosine;
+slot0ConfigsL.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
 
-  // Configuración de Motion Magic
-    MotionMagicConfigs motionMagicConfigs = motorConf.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity =60; 
-    motionMagicConfigs.MotionMagicAcceleration = 120;    
-    motionMagicConfigs.MotionMagicJerk = 1200;  
-    motionMagicConfigs.MotionMagicExpo_kA=0.11;
-    motionMagicConfigs.MotionMagicExpo_kV=0.10; 
+// Configuración de Límites de Corriente
+CurrentLimitsConfigs currentLimitsConfigsL =motorConfL.CurrentLimits;
+currentLimitsConfigsL.SupplyCurrentLowerLimit = 70;
+currentLimitsConfigsL.SupplyCurrentLowerTime = 1;
+currentLimitsConfigsL.SupplyCurrentLimit = 120;
+currentLimitsConfigsL.SupplyCurrentLimitEnable = true;
+currentLimitsConfigsL.StatorCurrentLimitEnable = true;
+currentLimitsConfigsL.StatorCurrentLimit = 120;
+*/
+
  
-    // Configuración de Límites de Posición
-    
-    //softLimitSwitchConfigs.ReverseSoftLimitEnable = true;
-     // HardwareLimitSwitchConfigs hardwareLimitSwitch = new HardwareLimitSwitchConfigs();
-     // hardwareLimitSwitch.ForwardLimitAutosetPositionValue=10;
-     // hardwareLimitSwitch.ForwardLimitEnable = true;
-
-
-    // Asignación de las subconfiguraciones a la configuración general
-   
-    //motorConf.HardwareLimitSwitch = hardwareLimitSwitch;
+ElevatorL.setControl(new Follower(ElevatorR.getDeviceID(), true));
 
 
 
   ElevatorR.getConfigurator().apply(motorConf); 
-  //ElevatorL.getConfigurator().apply(motorConf); 
+  ElevatorL.getConfigurator().apply(motorConf); 
   ElevatorR.setPosition(0);
-
+  ElevatorL.setPosition(0);
+  
 
     }
 // metodo
-public void GETPOSESELEVATORPower(double elePower ) {
+public void GETMANUALPOS(double elePower ) {
   ElevatorR.set(elePower * 0.5);
-  
     }
-public void setPosElevator(double pos) {
 
+public void setPosElevator(double pos) {
 ElevatorR.setControl(posvol.withPosition(pos));
-//ElevatorR.setControl(motionMagicControl.withPosition(pos));
+ElevatorL.setControl(posvol.withPosition(pos));
   }
 
   public  double getPosEle(){
     return ElevatorR.getPosition().getValueAsDouble();
   }
+
   public void setElevatorPoses (ElePoses elevadoStates) {
       if (ElPos != elevadoStates) {ElPos = elevadoStates; }
     }
@@ -142,9 +138,7 @@ ElevatorR.setControl(posvol.withPosition(pos));
     public void reset(){
       ElevatorR.resetSignalFrequencies();
     }
-//public double GestPosEle(){
-// return encoder.getDistance();
-//}
+
 
   
     public void setposEl(){
@@ -192,8 +186,6 @@ ElevatorR.setControl(posvol.withPosition(pos));
  public void periodic() {
   
      SmartDashboard.putNumber("position", ElevatorR.getPosition().getValueAsDouble());
-SmartDashboard.putNumber("Kg", feedforward.getKg());
-SmartDashboard.putNumber("Volt", volts);
  } 
 
 }

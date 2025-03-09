@@ -2,49 +2,41 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
-import java.lang.StackWalker.Option;
-import java.util.Optional;
+
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.events.EventTrigger;
-import com.pathplanner.lib.path.EventMarker;
-import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-import frc.robot.auto.IAuto;
-import frc.robot.auto.modes.INFERIOR;
+
 import frc.robot.commands.Autonomo;
 import frc.robot.commands.ClimberComm;
+import frc.robot.commands.Ensamble;
 import frc.robot.commands.PRUEBAS;
 import frc.robot.generated.TunerConstants;
 
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.ElevatorSub;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
+
 import frc.robot.subsystems.climber;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
    //private SendableChooser<AutoBuilder> mAutoChooser = new SendableChooser<>(); 
-
-    private Shooter mShooter = Shooter.getInstance();
-    
-
-
+private final Autonomo autonomo = new Autonomo();
+private Intake mIntake = Intake.getInstance();
+private final Ensamble ensamble = new Ensamble();
 private final PRUEBAS pruebas= new PRUEBAS();
 private final ClimberComm  climberComm = new ClimberComm();
 private final climber mClimber = climber.getInstance();
@@ -65,20 +57,20 @@ private ElevatorSub mElevatorSub = ElevatorSub.getInstance();
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
    private final SendableChooser<Command> autoChooser;
-   private final INFERIOR inferior = new INFERIOR();
+   
 
 
 
     public RobotContainer() {
+//NamedCommands.registerCommand();
+       autoChooser = AutoBuilder.buildAutoChooser();
 
-        autoChooser = AutoBuilder.buildAutoChooser();
-
-      SmartDashboard.putData("Autonomo", autoChooser);
+    SmartDashboard.putData("Autonomo", autoChooser);
 
         configureBindings();
-        mShooter.setDefaultCommand(pruebas);
-        mElevatorSub.setDefaultCommand(pruebas);
      
+        mIntake.setDefaultCommand(pruebas);
+        mElevatorSub.setDefaultCommand(pruebas);
         mClimber.setDefaultCommand(climberComm);
     }
 
@@ -114,8 +106,10 @@ private ElevatorSub mElevatorSub = ElevatorSub.getInstance();
     }
 
     public Command getAutonomousCommand() {
-//return autoChooser.getSelected();
-return inferior.getAutoCommand();
+return autoChooser.getSelected();
+//return new Autonomo();
+
+
 //AutoBuilder.followPath("LOL xd");
 /*drivetrain.applyRequest(() ->
 drive.withVelocityX(0) // Drive forward with negative Y (forward)

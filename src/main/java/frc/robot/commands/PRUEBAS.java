@@ -9,26 +9,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ControlBoard;
 
 import frc.robot.subsystems.ElevatorSub;
-import frc.robot.subsystems.Shooter;
+
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PRUEBAS extends Command {
   /** Creates a new PRUEBAS. */
   private final ElevatorSub mElevador = ElevatorSub.getInstance(); 
-  private final Shooter mShooter = Shooter.getInstance();
+
   double refpos=0;
 
   public PRUEBAS() {
     // Use addRequirements() here to declare subsystem dependencies.
   
 addRequirements(mElevador);
-addRequirements(mShooter);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mShooter.setConstantVel(0);
+ 
     mElevador.reset();
   }
 
@@ -37,26 +37,27 @@ addRequirements(mShooter);
   public void execute() {
     
 //joystic izquierdo brazo 
-     mElevador.GETPOSESELEVATORPower(ControlBoard.getRightY_ope());// joystic derecho elevador
-  mShooter.GETPOSESMU(ControlBoard.ButtonMuL()); //positivo muñeca trigger left
-  mShooter.GETPOSESMU(ControlBoard.ButtonMuL());
+     mElevador.GETMANUALPOS(ControlBoard.getRightY_ope());// joystic derecho elevador
+ 
   // Coral operador
   if (ControlBoard.ButtonMuL()>0){
-mShooter.setConstantVel(0.15);
-if(mShooter.Current()>= 22){
-  mShooter.setConstantVel(0);
+
 }
-  }
+  
 
   if(ControlBoard.buttonA()){
     mElevador.reset();
   }
-   
+ if(ControlBoard.ButtonCOLLECT()){
+
+ }  
+ if(ControlBoard.ButtonCOLLECT()){
   
+ }  
   
   
   else{
-    mShooter.setConstantVel(0); 
+   
   }
   if (ControlBoard.buttonx()) {
     refpos = 0.5;
@@ -69,7 +70,7 @@ if(mShooter.Current()>= 22){
   // negativo muñeca trigger right
   SmartDashboard.putNumber("POSE ELEVATOR", mElevador.getPosEle());
 
-  SmartDashboard.putNumber("POSE MUÑECA", mShooter.getposm());
+
   if(ControlBoard.buttonA()){
   }  
 }

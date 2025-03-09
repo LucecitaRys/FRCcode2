@@ -24,52 +24,46 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.generated.TunerConstants;
 import frc.robot.generated.TunerConstants.TunerSwerveDrivetrain;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.Shooter;
+
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Autonomo extends Command {
   /** Creates a new Autonomo.*/ 
 
-  private Shooter mShooter = Shooter.getInstance();
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric();
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-  PathPlannerPath path1, path2, path3;
+ public PathPlannerPath path1, path2, path3;
+ 
   private final Pose2d mStarPose = new Pose2d(9.5745 ,0.0, Rotation2d.fromDegrees(0));
-  public boolean mFlag;
-  public Trajectory trajectory = new Trajectory();
+  public boolean mFlag = false;
+  
+ 
 
   public Autonomo() {
-  addRequirements(mShooter);
+    // Use addRequirements() here to declare subsystem dependencies.
+ 
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-       try {
-     path1 = PathPlannerPath.fromPathFile("Centr");
-        Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
-      trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
-     path2 = PathPlannerPath.fromPathFile("Izquierdo");
-   path3 = PathPlannerPath.fromPathFile("Derecha");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+ 
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   new SequentialCommandGroup(
-    AutoBuilder.followPath(path2),
-                    AutoBuilder.followPath(path1),
-                    AutoBuilder.followPath(path2)
-
-  );
-  new SequentialCommandGroup(
     
-
-  );
+    try {
+      path1 = PathPlannerPath.fromPathFile("Test");
+      path2 = PathPlannerPath.fromPathFile("Test");
+    path3 = PathPlannerPath.fromPathFile("Test");
+         } catch (Exception e) {
+             e.printStackTrace();
+         }
+ 
+ 
   mFlag=true;
 
   }
@@ -82,6 +76,6 @@ public class Autonomo extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   return false;
+   return mFlag;
   }
 }

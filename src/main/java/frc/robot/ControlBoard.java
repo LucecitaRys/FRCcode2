@@ -14,8 +14,18 @@ public class ControlBoard {
      public static final XboxController driver = new XboxController(0); 
     public static final XboxController operator = new XboxController(1); 
 
-
-    
+public static boolean COLLECT(){
+    return operator.getAButton();
+}
+public static boolean Nivel1(){
+    return operator.getBButton();
+}
+public static boolean Nivel2(){
+    return operator.getXButton();
+}  
+public static boolean Nivel3(){
+    return operator.getYButton();
+} 
     public static double getLeftY_ope (){
         return MathUtil.applyDeadband(-operator.getLeftY(), 0.2); 
     }
@@ -42,7 +52,10 @@ public class ControlBoard {
         return operator.getRightBumperButtonPressed();
     }
     public static Boolean ButtonCOLLECT(){
-        return operator.getLeftBumperButtonReleased();
+        return operator.getLeftBumperButton();
+    }
+    public static Boolean Buttonthrow(){
+        return operator.getRightBumperButton();
     }
     public static Boolean ButtonCORAL(){
         return operator.getBackButtonPressed();
