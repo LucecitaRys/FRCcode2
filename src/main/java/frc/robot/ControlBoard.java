@@ -7,25 +7,54 @@ package frc.robot;
 import java.nio.file.OpenOption;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.XboxController;
 
 /** Add your docs here. */
 public class ControlBoard {
-     public static final XboxController driver = new XboxController(0); 
-    public static final XboxController operator = new XboxController(1); 
-
+     //public static final XboxController driver = new XboxController(0); 
+    //public static final XboxController operator = new XboxController(1); 
+    public static final PS4Controller operator= new PS4Controller(1);
+    
 public static boolean COLLECT(){
-    return operator.getAButton();
+     return operator.getCrossButtonReleased();
 }
 public static boolean Nivel1(){
-    return operator.getBButton();
+    return operator.getCircleButtonReleased();
 }
 public static boolean Nivel2(){
-    return operator.getXButton();
+    return operator.getTriangleButtonReleased();
+}
+public static boolean Nivel3(){
+    return operator.getSquareButtonReleased();
+}
+
+public static Boolean Continue(){
+    return operator.getOptionsButton();
+}
+public static boolean Stop(){
+    return operator.getShareButtonReleased();
+}
+
+
+/*public static boolean COLLECT(){
+    return operator.getAButtonReleased();
+}
+public static boolean Nivel1(){
+    return operator.getBButtonReleased();
+}
+public static boolean Nivel2(){
+    return operator.getYButtonReleased();
 }  
 public static boolean Nivel3(){
-    return operator.getYButton();
+    return operator.getXButtonReleased();
 } 
+public static Boolean Continue(){
+    return operator.getStartButtonReleased();
+}
+public static boolean Stop(){
+    return operator.getBackButtonReleased();
+}*/
     public static double getLeftY_ope (){
         return MathUtil.applyDeadband(-operator.getLeftY(), 0.2); 
     }
@@ -35,46 +64,20 @@ public static boolean Nivel3(){
     public static double getLeftXop(){
         return MathUtil.applyDeadband(-operator.getLeftX(),0.2);
     }
-    public static boolean buttonA (){
-        return operator.getAButton(); 
-    }
-    public static boolean buttonB(){
-        return operator.getBButton(); 
-    }
-  
-    public static boolean buttonx (){
-        return operator.getXButton(); 
-    }
-    public static boolean buttony(){
-        return operator.getYButton(); 
-    }
-    public static Boolean button5(){
-        return operator.getRightBumperButtonPressed();
-    }
-    public static Boolean ButtonCOLLECT(){
-        return operator.getLeftBumperButton();
-    }
+   
     public static Boolean Buttonthrow(){
-        return operator.getRightBumperButton();
+        return operator.getR1Button();
     }
-    public static Boolean ButtonCORAL(){
-        return operator.getBackButtonPressed();
-    }
-    public static Boolean ButtonALGAE(){
-        return operator.getStartButtonPressed();
-    }
-    public static Double ButtonMuL(){
-        return operator.getRightTriggerAxis()-operator.getLeftTriggerAxis();
-    }
+  public static Boolean ButtonCollect(){
+     return operator.getL1Button();
+  }
     
-    public static Double ButtonClimPosR(){
-        return driver.getRightTriggerAxis()-driver.getLeftTriggerAxis();
-    }
+    public static Double ButtonControVelIntake(){
+
+        return operator.getR2Axis()-operator.getL2Axis();
+   }
+
+
     
-    public static boolean ButtonPosEle1(){
-        return operator.getStartButton();
-    }
-    public static boolean ButtonReset(){
-        return operator.getBackButton();
-    }
+    
 }

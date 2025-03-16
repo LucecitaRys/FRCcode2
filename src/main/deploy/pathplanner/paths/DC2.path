@@ -3,35 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.7025,
-        "y": 4.03475
+        "x": 5.370491803278688,
+        "y": 5.469518442622951
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.883500000000001,
-        "y": 4.054250000000001
+        "x": 3.9177418032786884,
+        "y": 6.9905184426229505
       },
       "isLocked": false,
-      "linkedName": "ic"
+      "linkedName": "Df1"
     },
     {
       "anchor": {
-        "x": 6.132750000000001,
-        "y": 4.03475
+        "x": 1.726229508196721,
+        "y": 7.327612704918032
       },
       "prevControl": {
-        "x": 6.801750000000001,
-        "y": 4.001249999999999
+        "x": 3.2277295081967208,
+        "y": 7.132612704918032
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "finalC1"
+      "linkedName": "Df2"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Elevator0",
+      "waypointRelativePos": 0.5506833712984036,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 2.7,
     "maxAcceleration": 2.7,
@@ -42,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 126.02737338510364
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Derecho",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -118.73979529168805
   },
   "useDefaultConstraints": true
 }

@@ -4,6 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ControlBoard;
 import frc.robot.subsystems.ElevatorSub;
@@ -11,7 +14,7 @@ import frc.robot.subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class Ensamble extends Command {
-  /** Creates a new Ensamble. */
+
   private ElevatorSub mElevator = ElevatorSub.getInstance();
   private Intake mIntake = Intake.getInstance();
   double refpos=0;
@@ -27,51 +30,62 @@ public class Ensamble extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mIntake.ConstanVel(0);
+    mIntake.ConstanVel(0.1);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    mIntake.ConstanVel(0.1);
      mElevator.GETMANUALPOS(ControlBoard.getRightY_ope());
      mIntake.MANUALPOSE(ControlBoard.getLeftY_ope());
-     if(ControlBoard.COLLECT()){
+     if(ControlBoard.COLLECT()){ //a
       refpos=0.0;
-      PosMu=0.0;
-      mIntake.ConstanVel(-0.5);
-      if (mIntake.Current()>=20){
-        mIntake.ConstanVel(0);
-      }
+      PosMu=4.15;
+     mIntake.ConstanVel(0.5);
+      
      }
-     if(ControlBoard.Nivel1()){
+     if(ControlBoard.Nivel1()){ //b
+      refpos=-3;
+      PosMu= 2.4;// 0.9
+      
+     }
+     if(ControlBoard.Nivel2()){ // x
+      refpos=-17.5;
+      PosMu= 2.1;
+      
+     }
+     if(ControlBoard.Nivel3()){ // y //1
       refpos=0.0;
-      PosMu=0.0;
-      mIntake.ConstanVel(0.5);
-      if (mIntake.Current()<=20){
-        mIntake.ConstanVel(0);
-      }
+      PosMu=1.9;
      }
-     if(ControlBoard.Nivel2()){
-      refpos=0.0;
-      PosMu=0.0;
-      mIntake.ConstanVel(0.5);
-      if (mIntake.Current()<=20){
-        mIntake.ConstanVel(0);
-      }
-     }
-     if(ControlBoard.Nivel3()){
-      refpos=0.0;
-      PosMu=0.0;
-      mIntake.ConstanVel(0.5);
-      if (mIntake.Current()<=20){
-        mIntake.ConstanVel(0);
-      }
-     }
+/*if (ControlBoard.ButtonCollect()){
+  mIntake.ConstanVel(0.5);
+}
+if (ControlBoard.Buttonthrow()){
+  mIntake.ConstanVel(-0.3);
+}*/
+if(ControlBoard.Continue()){
+  mIntake.ConstanVel(-2.5);
+}
+if(ControlBoard.Stop()){
+  mIntake.ConstanVel(0.0); 
+}
+if(ControlBoard.Buttonthrow()){
+  PosMu=0;
+}if(ControlBoard.ButtonCollect()){
+  PosMu=4.15;
+}
 
-
-     mElevator.setPosElevator(refpos);
-     mIntake.SetPosM(PosMu);
+    mElevator.setPosElevator(refpos);
+    mIntake.SetPosM(PosMu);
+  mIntake.ConstanVel(ControlBoard.ButtonControVelIntake()*0.25+ 0.05);
+ 
   }
+  
+
+   
+  
 
   // Called once the command ends or is interrupted.
   @Override

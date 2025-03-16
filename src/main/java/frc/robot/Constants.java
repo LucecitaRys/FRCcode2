@@ -22,12 +22,12 @@ public class Constants {
 
     public static final class MotorConstants {
         public static final int id_ms= 31; 
-         public static final int id_mi= 17; 
-         public static final int id_er = 22;
+         public static final int id_mi= 1; 
+         public static final int id_er = 47;
          public static final int id_mb =21;
          public static final int id_cl=47;
-         public static final int id_Mm= 0;
-         public static final int id_el=0;
+         public static final int id_Mm= 15;
+         public static final int id_el=18;
       }
 
       public static final class  Swerve {

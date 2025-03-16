@@ -21,11 +21,9 @@ import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -41,33 +39,24 @@ public double posel;
 public TalonFXConfiguration motorConf = new TalonFXConfiguration();
 public TalonFXConfiguration motorConfL = new TalonFXConfiguration();
 
-  public enum ElePoses {
-    none,
-    collect,
-    nivel1,
-    nivel2,
-    nivel3,
-    nivel4,
-    throwAlagae,
-    intakeVC;
-  }
-  public ElePoses ElPos = ElePoses.none;   
+
 
   public ElevatorSub() {
 
 
 ElevatorR= new TalonFX(Constants.MotorConstants.id_er);
 ElevatorL = new TalonFX(Constants.MotorConstants.id_el);
-
+ElevatorL.setNeutralMode(NeutralModeValue.Brake);
+ElevatorR.setNeutralMode(NeutralModeValue.Brake);
 
 
   Slot0Configs slot0Configs = motorConf.Slot0; 
-slot0Configs.kP = 8;
+slot0Configs.kP = 1.3;
 slot0Configs.kI = 0;
 slot0Configs.kD = 0;
 slot0Configs.kS = 5;
 slot0Configs.kG = 0;
-slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
+slot0Configs.GravityType = GravityTypeValue.Elevator_Static;
 slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
 
 // Configuración de Límites de Corriente
@@ -113,21 +102,20 @@ ElevatorL.setControl(new Follower(ElevatorR.getDeviceID(), true));
     }
 // metodo
 public void GETMANUALPOS(double elePower ) {
-  ElevatorR.set(elePower * 0.5);
+  ElevatorL.set(elePower);
+  
     }
 
 public void setPosElevator(double pos) {
-ElevatorR.setControl(posvol.withPosition(pos));
+//ElevatorR.setControl(posvol.withPosition(pos));
 ElevatorL.setControl(posvol.withPosition(pos));
   }
 
   public  double getPosEle(){
-    return ElevatorR.getPosition().getValueAsDouble();
+    return ElevatorL.getPosition().getValueAsDouble();
   }
 
-  public void setElevatorPoses (ElePoses elevadoStates) {
-      if (ElPos != elevadoStates) {ElPos = elevadoStates; }
-    }
+  
 
     public static ElevatorSub getInstance (){
       if (mElevatorSub== null){
@@ -141,51 +129,13 @@ ElevatorL.setControl(posvol.withPosition(pos));
 
 
   
-    public void setposEl(){
-      switch (ElPos) {
-        case none:
-          setPosElevator(0);
-          posel= 0;
-
-          break;
-          case collect:
-          setPosElevator(0);          
-          posel= 0;
-          break; 
-          case nivel1:
-          setPosElevator(0);
-          posel= 0;
-
-          break;
-          case nivel2:
-          setPosElevator(0);
-          posel= 0;
-          
-          break;
-          case nivel3:
-          setPosElevator(0);
-          posel= 0;
-
-          break;
-          case nivel4:
-          setPosElevator(0);
-          posel= 0;
-
-          break;
-          case throwAlagae:
-          setPosElevator(0);
-          posel= 0;
-
-          break;
-        default:
-          break;
-        }
-      }
+   
       
  @Override
  public void periodic() {
   
-     SmartDashboard.putNumber("position", ElevatorR.getPosition().getValueAsDouble());
+     SmartDashboard.putNumber("positionER", ElevatorR.getPosition().getValueAsDouble());
+     SmartDashboard.putNumber("positionEL", ElevatorL.getPosition().getValueAsDouble());
  } 
 
 }

@@ -5,16 +5,21 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.ControlBoard;
-import frc.robot.subsystems.climber;
+import frc.robot.subsystems.ElevatorSub;
+import frc.robot.subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ClimberComm extends Command {
-  /** Creates a new ClimberComm. */
-  private climber mClimber = climber.getInstance();
-  public ClimberComm() {
+public class EleAu extends Command {
+  /** Creates a new EleAu. */
+  private final Intake mIntake = Intake.getInstance();
+  private final ElevatorSub mElevator = ElevatorSub.getInstance();
+  double PosEle, PosMu;
+  public EleAu(double PosElevator, double PosMuneca) {
+    PosEle = PosElevator;
+    PosMu = PosMuneca;
+    addRequirements(mIntake);
+    addRequirements(mElevator);
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(mClimber);
   }
 
   // Called when the command is initially scheduled.
@@ -24,8 +29,8 @@ public class ClimberComm extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mClimber.setClimber(ControlBoard.ButtonClimPosR());//driver trigger derecho positivo
-     // driver triger izquierdo negativo
+mElevator.setPosElevator(PosEle);
+mIntake.SetPosM(PosMu);
   }
 
   // Called once the command ends or is interrupted.

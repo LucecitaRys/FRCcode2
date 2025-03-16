@@ -10,6 +10,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.StaticFeedforwardSignValue;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,12 +28,13 @@ public class Intake extends SubsystemBase {
   private final PositionVoltage posvol = new PositionVoltage (0);
 
   public Intake() {
+Muneca.setNeutralMode(NeutralModeValue.Brake);
 
  Slot0Configs slot0Configs = MotorConfigM.Slot0; 
-slot0Configs.kP = 8;
+slot0Configs.kP = 1.8;
 slot0Configs.kI = 0;
 slot0Configs.kD = 0;
-slot0Configs.kS = 5;
+slot0Configs.kS = 4;
 slot0Configs.kG = 0;
 slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
 slot0Configs.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
@@ -66,6 +68,7 @@ CurrentLimitsConfigs CurrentLimitsI = MotorConfigI.CurrentLimits;
 Intake.getConfigurator().apply(MotorConfigI);
 
 Muneca.setPosition(0);
+
   }
   public void MANUALPOSE(double elePower ) {
     Muneca.set(elePower * 0.5);
@@ -83,11 +86,13 @@ public void SetPosM(double pos) {
       return mIntakeSub;
     }
     public double Current(){
-      double Currentlim = Intake.getSupplyCurrent().getValueAsDouble();
-      return Currentlim;
+      //double Currentlim = Intake.getSupplyCurrent().getValueAsDouble();
+      double CurrentLimit = Intake.getTorqueCurrent().getValueAsDouble();
+      return CurrentLimit;
    }
   @Override
   public void periodic() {
-      SmartDashboard.putNumber("position", Muneca.getPosition().getValueAsDouble());
-  }
+      SmartDashboard.putNumber("Muneca", Muneca.getPosition().getValueAsDouble());
+  SmartDashboard.putNumber("Curent", Current());
+    }
 }

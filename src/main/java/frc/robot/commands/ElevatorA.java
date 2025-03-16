@@ -4,6 +4,9 @@
 
 package frc.robot.commands;
 
+import java.lang.management.ThreadInfo;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.ElevatorSub;
@@ -12,22 +15,15 @@ import frc.robot.subsystems.Intake;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class Autonomos extends Command {
-   private final ElevatorSub mElevador = ElevatorSub.getInstance(); 
-  private final Intake mIntake = Intake.getInstance();
- 
- 
-
- 
- private ElevatorSub.ElePoses MyposeEl= null;
- private boolean mFlag;
-
-  
-  public Autonomos(ElevatorSub.ElePoses poseEle) {
-  
-
-    MyposeEl = poseEle;
-    addRequirements(mIntake);
+public class ElevatorA extends Command {
+   private final ElevatorSub mElevador;
+ //private ElevatorSub.ElePoses MyposeEl= null;
+double mtime ;
+ double pose;
+ private boolean flag= false;
+  public ElevatorA(double poseE, ElevatorSub mElevatorSub) {
+    pose = poseE;
+    this.mElevador = mElevatorSub;
 addRequirements(mElevador);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,30 +33,16 @@ addRequirements(mElevador);
   @Override
   public void initialize() {
 
-   
-    mElevador.ElPos = MyposeEl;
-
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
-      if ( mElevador.posel == mElevador.getPosEle()) {
-
-        mIntake.ConstanVel(0);
-
-        if (mIntake.Current() >= 0.32) {
-          mIntake.ConstanVel(0);
-          mFlag = true;
-        }
-      }
-
-    
-
-
-
+mtime = Timer.getFPGATimestamp();
+mElevador.setPosElevator(pose);
+if(mtime >= 1.2){
+  flag= true;
+}
 
   }
 
@@ -73,6 +55,6 @@ addRequirements(mElevador);
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return mFlag;
+    return flag;
   }
 }
