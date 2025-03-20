@@ -37,7 +37,7 @@ private final TalonFX ElevatorL;
 double volts;
 public double posel;
 public TalonFXConfiguration motorConf = new TalonFXConfiguration();
-public TalonFXConfiguration motorConfL = new TalonFXConfiguration();
+public TalonFXConfiguration motorConfr = new TalonFXConfiguration();
 
 
 
@@ -68,32 +68,22 @@ currentLimitsConfigs.SupplyCurrentLimitEnable = true;
 currentLimitsConfigs.StatorCurrentLimitEnable = true;
 currentLimitsConfigs.StatorCurrentLimit = 120;
 
+CurrentLimitsConfigs currentLimitsConfig =motorConfr.CurrentLimits;
+currentLimitsConfig.SupplyCurrentLowerLimit = 70;
+currentLimitsConfig.SupplyCurrentLowerTime = 1;
+currentLimitsConfig.SupplyCurrentLimit = 120;
+currentLimitsConfig.SupplyCurrentLimitEnable = true;
+currentLimitsConfig.StatorCurrentLimitEnable = true;
+currentLimitsConfig.StatorCurrentLimit = 120;
 
-/*Slot0Configs slot0ConfigsL = motorConfL.Slot0; 
-slot0ConfigsL.kP = 8;
-slot0ConfigsL.kI = 0;
-slot0ConfigsL.kD = 0;
-slot0ConfigsL.kS = 5;
-slot0ConfigsL.kG = 0;
-slot0ConfigsL.GravityType = GravityTypeValue.Arm_Cosine;
-slot0ConfigsL.StaticFeedforwardSign = StaticFeedforwardSignValue.UseVelocitySign;
 
-// Configuración de Límites de Corriente
-CurrentLimitsConfigs currentLimitsConfigsL =motorConfL.CurrentLimits;
-currentLimitsConfigsL.SupplyCurrentLowerLimit = 70;
-currentLimitsConfigsL.SupplyCurrentLowerTime = 1;
-currentLimitsConfigsL.SupplyCurrentLimit = 120;
-currentLimitsConfigsL.SupplyCurrentLimitEnable = true;
-currentLimitsConfigsL.StatorCurrentLimitEnable = true;
-currentLimitsConfigsL.StatorCurrentLimit = 120;
-*/
 
  
-ElevatorL.setControl(new Follower(ElevatorR.getDeviceID(), true));
+ElevatorR.setControl(new Follower(ElevatorL.getDeviceID(), true));
 
 
 
-  ElevatorR.getConfigurator().apply(motorConf); 
+  ElevatorR.getConfigurator().apply(motorConfr); 
   ElevatorL.getConfigurator().apply(motorConf); 
   ElevatorR.setPosition(0);
   ElevatorL.setPosition(0);
@@ -109,6 +99,7 @@ public void GETMANUALPOS(double elePower ) {
 public void setPosElevator(double pos) {
 //ElevatorR.setControl(posvol.withPosition(pos));
 ElevatorL.setControl(posvol.withPosition(pos));
+
   }
 
   public  double getPosEle(){

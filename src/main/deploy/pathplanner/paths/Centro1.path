@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 6.197643442622951,
-        "y": 3.839190573770491
+        "x": 6.185655737704918,
+        "y": 3.815215163934426
       },
       "prevControl": {
-        "x": 7.036782786885247,
-        "y": 3.7862704918032772
+        "x": 7.0247950819672145,
+        "y": 3.762295081967212
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Fic1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -33,10 +33,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.7,
-    "maxAcceleration": 2.7,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 2.2,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },

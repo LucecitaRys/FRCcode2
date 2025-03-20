@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.0327295081967196,
-        "y": 6.401362704918032
+        "x": 2.3975409836065573,
+        "y": 6.176793032786884
       },
       "isLocked": false,
       "linkedName": "Df2"
     },
     {
       "anchor": {
-        "x": 3.512397540983606,
-        "y": 5.409579918032787
+        "x": 2.8290983606557374,
+        "y": 4.198821721311475
       },
       "prevControl": {
-        "x": 2.751897540983605,
-        "y": 6.209079918032786
+        "x": 1.582377049180327,
+        "y": 5.169825819672131
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,16 +33,16 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.7,
-    "maxAcceleration": 2.7,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 2.2,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -58.240519915187186
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Derecho",

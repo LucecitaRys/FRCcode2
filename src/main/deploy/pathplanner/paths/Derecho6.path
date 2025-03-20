@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.6075,
-        "y": 5.428999999999999
+        "x": 2.805122950819672,
+        "y": 3.8272028688524586
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.840286885245902,
-        "y": 6.411991803278688
+        "x": 2.037909836065574,
+        "y": 4.810194672131146
       },
       "isLocked": false,
       "linkedName": "DF5"
@@ -20,7 +20,7 @@
         "y": 7.327612704918032
       },
       "prevControl": {
-        "x": 2.671979508196721,
+        "x": 2.6719795081967215,
         "y": 6.430612704918032
       },
       "nextControl": null,
@@ -33,10 +33,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.7,
-    "maxAcceleration": 2.7,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 2.2,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -48,7 +48,7 @@
   "folder": "Derecho",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -60.255118703057924
+    "rotation": 1.5074357587749723
   },
   "useDefaultConstraints": true
 }

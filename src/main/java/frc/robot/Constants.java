@@ -22,7 +22,7 @@ public class Constants {
 
     public static final class MotorConstants {
         public static final int id_ms= 31; 
-         public static final int id_mi= 1; 
+         public static final int id_mi= 23; 
          public static final int id_er = 47;
          public static final int id_mb =21;
          public static final int id_cl=47;

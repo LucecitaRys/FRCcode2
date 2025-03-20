@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.ControlBoard;
+import frc.robot.subsystems.Algaes;
 import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.Intake;
 
@@ -17,13 +18,16 @@ public class Ensamble extends Command {
 
   private ElevatorSub mElevator = ElevatorSub.getInstance();
   private Intake mIntake = Intake.getInstance();
+  private Algaes mAlgaes = Algaes.getInstance();
   double refpos=0;
   double PosMu = 0;
+  double posA= 0;
 
   public Ensamble() {
   
     addRequirements(mElevator);
     addRequirements(mIntake);
+    addRequirements(mAlgaes);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -59,6 +63,15 @@ public class Ensamble extends Command {
       refpos=0.0;
       PosMu=1.9;
      }
+     if (ControlBoard.algae1()){
+      posA=-1;
+      
+     }
+     if (ControlBoard.algae2()){
+      posA=-0.1;
+      
+     }
+     mAlgaes.setVelocityAlgae(ControlBoard.velAl());
 /*if (ControlBoard.ButtonCollect()){
   mIntake.ConstanVel(0.5);
 }
@@ -79,6 +92,7 @@ if(ControlBoard.Buttonthrow()){
 
     mElevator.setPosElevator(refpos);
     mIntake.SetPosM(PosMu);
+    mAlgaes.PosMAl(posA);
   mIntake.ConstanVel(ControlBoard.ButtonControVelIntake()*0.25+ 0.05);
  
   }

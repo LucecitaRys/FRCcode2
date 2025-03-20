@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.512397540983606,
-        "y": 5.409579918032787
+        "x": 2.8290983606557374,
+        "y": 4.198821721311475
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.537397540983606,
-        "y": 6.423579918032786
+        "x": 1.8540983606557373,
+        "y": 5.2128217213114745
       },
       "isLocked": false,
       "linkedName": "Df3"
@@ -20,7 +20,7 @@
         "y": 7.327612704918032
       },
       "prevControl": {
-        "x": 2.905979508196721,
+        "x": 2.9059795081967206,
         "y": 6.1771127049180325
       },
       "nextControl": null,
@@ -33,10 +33,10 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 2.7,
-    "maxAcceleration": 2.7,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0,
+    "maxVelocity": 2.2,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 360.0,
     "nominalVoltage": 12.0,
     "unlimited": false
   },
@@ -48,7 +48,7 @@
   "folder": "Derecho",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -58.240519915187186
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
