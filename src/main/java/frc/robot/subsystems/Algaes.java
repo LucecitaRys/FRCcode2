@@ -53,8 +53,8 @@ PosAlgae.setPosition(0);
   public void PosMAl(double position) {
     PosAlgae.setControl(posvolt.withPosition(position));
    }
-   public void setVelocityAlgae(double vel){
-    velAl.set(vel);
+   public void setVelocityAlgae(double velo){
+    velAl.set(velo);
    }
    
    public static Algaes getInstance (){

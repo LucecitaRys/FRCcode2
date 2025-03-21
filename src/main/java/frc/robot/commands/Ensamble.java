@@ -18,36 +18,38 @@ public class Ensamble extends Command {
 
   private ElevatorSub mElevator = ElevatorSub.getInstance();
   private Intake mIntake = Intake.getInstance();
-  private Algaes mAlgaes = Algaes.getInstance();
+  //private Algaes mAlgaes = Algaes.getInstance();
   double refpos=0;
   double PosMu = 0;
   double posA= 0;
+boolean salida;
 
-  public Ensamble() {
+  public Ensamble( ) {
   
     addRequirements(mElevator);
     addRequirements(mIntake);
-    addRequirements(mAlgaes);
+   // addRequirements(mAlgaes);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    mIntake.ConstanVel(0.1);
+   
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mIntake.ConstanVel(0.1);
+    
      mElevator.GETMANUALPOS(ControlBoard.getRightY_ope());
      mIntake.MANUALPOSE(ControlBoard.getLeftY_ope());
+    // if(ControlBoard.coll()){
+     // mIntake.ConstanVel(0.1);
+    // }
      if(ControlBoard.COLLECT()){ //a
       refpos=0.0;
       PosMu=4.15;
-     mIntake.ConstanVel(0.5);
-      
      }
      if(ControlBoard.Nivel1()){ //b
       refpos=-3;
@@ -63,43 +65,36 @@ public class Ensamble extends Command {
       refpos=0.0;
       PosMu=1.9;
      }
-     if (ControlBoard.algae1()){
-      posA=-1;
+     //if (ControlBoard.algae1()){
+      //posA=-1;
       
-     }
-     if (ControlBoard.algae2()){
-      posA=-0.1;
-      
+     //}
+    /* else{
+      posA=0;
      }
      mAlgaes.setVelocityAlgae(ControlBoard.velAl());
-/*if (ControlBoard.ButtonCollect()){
-  mIntake.ConstanVel(0.5);
-}
-if (ControlBoard.Buttonthrow()){
-  mIntake.ConstanVel(-0.3);
-}*/
+*/ 
 if(ControlBoard.Continue()){
   mIntake.ConstanVel(-2.5);
 }
 if(ControlBoard.Stop()){
   mIntake.ConstanVel(0.0); 
 }
-if(ControlBoard.Buttonthrow()){
-  PosMu=0;
-}if(ControlBoard.ButtonCollect()){
-  PosMu=4.15;
+if (ControlBoard.ButtonCollect()) {
+  mIntake.SetPosM(0);
+}
+if (ControlBoard.Buttonthrow()) {
+  mIntake.SetPosM(4.15);
 }
 
     mElevator.setPosElevator(refpos);
     mIntake.SetPosM(PosMu);
-    mAlgaes.PosMAl(posA);
+    //mAlgaes.PosMAl(posA);
   mIntake.ConstanVel(ControlBoard.ButtonControVelIntake()*0.25+ 0.05);
  
   }
   
 
-   
-  
 
   // Called once the command ends or is interrupted.
   @Override
@@ -107,7 +102,7 @@ if(ControlBoard.Buttonthrow()){
 
   // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return false;
+  public boolean isFinished( ) {
+    return salida;
   }
 }

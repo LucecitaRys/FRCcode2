@@ -4,21 +4,18 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ElevatorSub;
 import frc.robot.subsystems.Intake;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class EleAu extends Command {
-  /** Creates a new EleAu. */
-  private final Intake mIntake = Intake.getInstance();
-  private final ElevatorSub mElevator = ElevatorSub.getInstance();
-  double PosEle, PosMu;
-  public EleAu(double PosElevator, double PosMuneca) {
-    PosEle = PosElevator;
-    PosMu = PosMuneca;
+public class keep extends Command {
+  /** Creates a new Thrownivel1. */
+  private final Intake mIntake;
+
+  public keep(Intake mIntake) {
+    this.mIntake = mIntake;
     addRequirements(mIntake);
-    addRequirements(mElevator);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,8 +26,8 @@ public class EleAu extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-mElevator.setPosElevator(PosEle);
-mIntake.SetPosM(PosMu);
+  SmartDashboard.putBoolean("ACTIVO", true);
+    mIntake.ConstanVel(0.1);
   }
 
   // Called once the command ends or is interrupted.

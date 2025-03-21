@@ -42,17 +42,7 @@ addRequirements(mElevator);
   public void execute() {
     mStartime = Timer.getFPGATimestamp(); 
     SmartDashboard.putBoolean("True", true);
-    if(mElevator.getPosEle()<=0 && mElevator.getPosEle()>=-1){
-      pos=2.4; 
-
-    }
-    else if(mElevator.getPosEle()<=-4.5 && mElevator.getPosEle()>=-5.5){
-      pos=2.1;
-    }
-  else  if(mElevator.getPosEle()<=-16.5 && mElevator.getPosEle()>=-18.5){
-      pos=2.1;
-  }
-  
+      pos=2.6; 
   if (mStartime >= 0.5) {
     mIntake.ConstanVel(-0.25);
     mIntake.SetPosM(pos);     

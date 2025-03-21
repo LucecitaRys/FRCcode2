@@ -124,7 +124,7 @@ private static final Pigeon2 pigeon = new Pigeon2(kPigeonId, "canivore");
             .withSteerFrictionVoltage(kSteerFrictionVoltage)
             .withDriveFrictionVoltage(kDriveFrictionVoltage);
 
-
+            //Front Left
             private static final int kFrontLeftDriveMotorId = 4;
             private static final int kFrontLeftSteerMotorId = 0;
             private static final int kFrontLeftEncoderId = 6;

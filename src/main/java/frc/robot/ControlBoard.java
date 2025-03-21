@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.XboxController;
 
 /** Add your docs here. */
 public class ControlBoard {
-     public static final XboxController drive = new XboxController(0); 
+    // public static final XboxController drive = new XboxController(0); 
     //public static final XboxController operator = new XboxController(1); 
     public static final PS4Controller operator= new PS4Controller(1);
     
@@ -36,16 +36,16 @@ public static boolean Stop(){
     return operator.getShareButtonReleased();
 }
 
-public static boolean algae1(){
-    return drive.getAButtonReleased();
+/*public static boolean algae1(){
+    return drive.getAButton();
 }
 public static boolean algae2(){
     return drive.getYButtonReleased();
 }
-/*public static boolean COLLECT(){
-    return operator.getAButtonReleased();
-}
-public static boolean Nivel1(){
+public static boolean coll(){
+    return operator.getR1ButtonReleased();
+} z*/
+/*public static boolean Nivel1(){
     return operator.getBButtonReleased();
 }
 public static boolean Nivel2(){
@@ -82,10 +82,10 @@ public static boolean Stop(){
         return operator.getR2Axis()-operator.getL2Axis();
    }
 
-   public static Double velAl(){
+ //  public static Double velAl(){
 
-    return drive.getRightTriggerAxis()-drive.getLeftTriggerAxis();
-}
+  //  return drive.getRightTriggerAxis()-drive.getLeftTriggerAxis();
+//}
 
     
     

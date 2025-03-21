@@ -97,7 +97,7 @@ public void GETMANUALPOS(double elePower ) {
     }
 
 public void setPosElevator(double pos) {
-//ElevatorR.setControl(posvol.withPosition(pos));
+
 ElevatorL.setControl(posvol.withPosition(pos));
 
   }
